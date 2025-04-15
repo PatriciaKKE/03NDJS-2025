@@ -1,0 +1,10 @@
+i
+NodeJS est conçu pour être non bloquant. Cela signifie qu'il ne va pas attendre qu'une opération (comme la lecture d'un fichier ou une requête réseau) soit terminée avant de passer à la suite. Au lieu de cela, il lance l'opération et passe à autre chose. Quand l'opération est terminée, le callback est exécuté.Donc en gros le callback permet l'asychronisation.
+Une Promise est un objet qui représente une valeur qui sera disponible dans le futur.Il rend le code asychrone plus facile a lire et a comprendre par rapport a un callback.
+async est utiliser pour declarer une fonction asynchrone.
+await est utilisé à l'intérieur d'une fonction async pour attendre que chaque etape soit terminer avant de passer a la suivante.
+En conclusion, dans le callback tu recoit l'information et tu la traite directement alors que promise tu peux traiter une autre information avant de venir terminer la precedente.
+e est un objet qui représente une valeur qui sera disponible dans le futur.Il rend le code asychrone plus facile a lire et a comprendre par rapport a un callback.
+async est utiliser pour declarer une fonction asynchrone.
+await est utilisé à l'intérieur d'une fonction async pour attendre que chaque etape soit terminer avant de passer a la suivante.
+
