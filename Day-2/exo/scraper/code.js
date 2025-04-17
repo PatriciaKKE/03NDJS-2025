@@ -1,3 +1,5 @@
+const cheerio = require('cheerio');
+
 class TableRow {
   constructor(data) {
     this.data = data;
@@ -32,18 +34,31 @@ class Table {
 
 async function scraper() {
   try {
-    const columns = ['Lieu', 'Année', 'Population'];
+    const $ = await cheerio.fromURL('https://statbel.fgov.be/fr/themes/population/structure-de-la-population');
 
-    const data = [
-      { 'Lieu': 'Bruxelle', 'Année': '2020', 'Population': '11 500 000' },
-      { 'Lieu': 'Flandre',  'Année': '2021', 'Population': '11 600 000' },
-      { 'Lieu': 'Wallon', 'Année': '2022', 'Population': '11 700 000' }
-    ];
+    
+    const tableElement = $('div.responsivetable table.statisticTable');
 
-    const rows = data.map(item => new TableRow(item));
+    
+    const columns = [];
+    tableElement.find('thead th').each((index, element) => {
+      columns.push($(element).text().trim());
+    });
+
+    
+    const rows = [];
+    tableElement.find('tbody tr').each((rowIndex, row) => {
+      const rowData = {};
+      $(row).find('td').each((cellIndex, cell) => {
+        const columnName = columns[cellIndex];
+        rowData[columnName] = $(cell).text().trim();
+      });
+      rows.push(new TableRow(rowData));
+    });
 
     const table = new Table(rows);
 
+    
     console.log('Données du tableau:\n', table.toString());
 
   } catch (error) {
