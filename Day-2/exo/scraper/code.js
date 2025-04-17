@@ -37,6 +37,9 @@ async function scraper() {
     const $ = await cheerio.fromURL('https://statbel.fgov.be/fr/themes/population/structure-de-la-population');
 
     
+    const villes = ['Bruxelles', 'Anvers', 'Gand', 'Charleroi', 'Liège'];
+
+    
     const tableElement = $('div.responsivetable table.statisticTable');
 
     
@@ -45,20 +48,25 @@ async function scraper() {
       columns.push($(element).text().trim());
     });
 
-    
+   
     const rows = [];
-    tableElement.find('tbody tr').each((rowIndex, row) => {
-      const rowData = {};
-      $(row).find('td').each((cellIndex, cell) => {
-        const columnName = columns[cellIndex];
-        rowData[columnName] = $(cell).text().trim();
+    villes.forEach(ville => {
+     
+      tableElement.find('tbody tr').each((rowIndex, row) => {
+        const firstCellText = $(row).find('td, th').first().text().trim();
+        if (firstCellText.includes(ville)) {
+          const rowData = {};
+          $(row).find('td, th').each((cellIndex, cell) => {
+            const columnName = columns[cellIndex];
+            rowData[columnName] = $(cell).text().trim();
+          });
+          rows.push(new TableRow(rowData));
+        }
       });
-      rows.push(new TableRow(rowData));
     });
 
     const table = new Table(rows);
 
-    
     console.log('Données du tableau:\n', table.toString());
 
   } catch (error) {
