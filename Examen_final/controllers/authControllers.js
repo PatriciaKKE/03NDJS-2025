@@ -43,7 +43,7 @@ const login = async (req, res, next) => {
     }
 
     
-    const token = jwt.sign({ id: user.id }, 'VOTRE_CLE_SECRETE', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, 'xUCgqueIYDfLEDsmOt1ujaXnuP1zSru2xsOocw87dHI=', { expiresIn: '1h' });
 
     
     res.json({ token });
