@@ -28,23 +28,30 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => { 
   try {
+    console.log('Début de la fonction login'); 
     const { email, password } = req.body;
+    console.log('Email:', email); 
+    console.log('Password:', password); 
 
     
     const user = User.getByEmail(email);
+    console.log('User:', user); 
     if (!user) {
+      console.log('Utilisateur non trouvé'); 
       return res.status(401).json({ message: 'Identifiants invalides' });
     }
 
    
     const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log('isPasswordValid:', isPasswordValid);
     if (!isPasswordValid) {
+    console.log('Mot de passe invalide'); 
       return res.status(401).json({ message: 'Identifiants invalides' });
     }
 
     
     const token = jwt.sign({ id: user.id }, 'fdsFDu2H9L4Apl6C3CD6BTvSoPJnm7vHuzTOlxZWEDE=', { expiresIn: '24h' });
-
+    console.log('Token:', token);
     
     res.json({ token });
   } catch (error) {
