@@ -12,7 +12,7 @@ const authMiddleware = (req, res, next) => {
     return res.status(401).json({ message: 'Token inexistant' });
   }
 
-  jwt.verify(token, 'xUCgqueIYDfLEDsmOt1ujaXnuP1zSru2xsOocw87dHI=', (err, user) => {
+  jwt.verify(token, 'fdsFDu2H9L4Apl6C3CD6BTvSoPJnm7vHuzTOlxZWEDE=', (err, user) => {
     if (err) {
       console.log('Token invalide:', err.message);
       return res.status(403).json({ message: 'Token invalide' });
