@@ -1,13 +1,13 @@
 const User = require('../models/User'); 
 
-const getMe = (req, res) => { 
+const getMe = (req, res) => {
   
-  const user = User.getById(req.user.id);
-  if (!user) { 
-    return res.status(404).json({ message: 'Utilisateur non trouvé' }); 
+  const user = req.user; 
+  if (!user) {
+    return res.status(404).json({ message: 'Utilisateur non trouvé' });
   }
   const { password, ...userWithoutPassword } = user;
-  res.json(userWithoutPassword); 
+  res.json(userWithoutPassword);
 };
 
 const getAllUsers = (req, res) => { 
